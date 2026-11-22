@@ -11,8 +11,17 @@ export default function UsersDao(db) {
 
   const createUser = (user) => {
     const newUser = {
-      ...user,
       _id: uuidv4(),
+      username: user.username,
+      password: user.password,
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
+      email: user.email || "",
+      role: user.role || "STUDENT",
+      loginId: user.loginId || user.username,
+      section: user.section || "",
+      lastActivity: user.lastActivity || "",
+      totalActivity: user.totalActivity || "",
     };
     users.push(newUser);
     return newUser;
