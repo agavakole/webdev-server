@@ -6,6 +6,7 @@ import Hello from "./Hello";
 import Lab5 from "./Lab5/index";
 import db from "./Kambaz/Database";
 import UserRoutes from "./Kambaz/Users/routes";
+import CourseRoutes from "./Kambaz/Courses/routes";
 
 const app = express();
 
@@ -34,5 +35,6 @@ app.use(express.json());
 Hello(app);
 Lab5(app);
 UserRoutes(app, db);
+CourseRoutes(app, db);
 
 app.listen(process.env.PORT || 4000);
