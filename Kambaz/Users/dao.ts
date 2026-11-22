@@ -30,6 +30,19 @@ export default function UsersDao(db) {
   const findUserById = (userId) =>
     users.find((user) => user._id === userId);
 
+  const findUsersForCourse = (courseId) => {
+    const enrolledUserIds = db.enrollments
+      .filter((enrollment) => enrollment.course === courseId)
+      .map((enrollment) => enrollment.user);
+
+    return users.filter((user) => enrolledUserIds.includes(user._id));
+  };
+
+  const deleteUser = (userId) => {
+    db.users = db.users.filter((user) => user._id !== userId);
+    db.enrollments = db.enrollments.filter((enrollment) => enrollment.user !== userId);
+  };
+
   const updateUser = (userId, user) => {
     const index = users.findIndex((item) => item._id === userId);
 
@@ -45,6 +58,8 @@ export default function UsersDao(db) {
     findUserByUsername,
     createUser,
     findUserById,
+    findUsersForCourse,
+    deleteUser,
     updateUser,
   };
 }
