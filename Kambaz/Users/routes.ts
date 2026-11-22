@@ -1,0 +1,46 @@
+import UsersDao from "./dao";
+
+export default function UserRoutes(app, db) {
+  const dao = UsersDao(db);
+  let currentUser = null;
+
+  const signup = (req, res) => {
+    const existingUser = dao.findUserByUsername(req.body.username);
+
+    if (existingUser) {
+      res.status(400).json({ message: "Username already in use" });
+      return;
+    }
+
+    currentUser = dao.createUser(req.body);
+    res.json(currentUser);
+  };
+
+  const signin = (req, res) => {
+    const { username, password } = req.body;
+    currentUser = dao.findUserByCredentials(username, password);
+    res.json(currentUser);
+  };
+
+  const signout = (req, res) => {
+    currentUser = null;
+    res.sendStatus(200);
+  };
+
+  const profile = (req, res) => {
+    res.json(currentUser);
+  };
+
+  const updateUser = (req, res) => {
+    const { userId } = req.params;
+    dao.updateUser(userId, req.body);
+    currentUser = dao.findUserById(userId);
+    res.json(currentUser);
+  };
+
+  app.post("/api/users/signup", signup);
+  app.post("/api/users/signin", signin);
+  app.post("/api/users/signout", signout);
+  app.get("/api/users/profile", profile);
+  app.put("/api/users/:userId", updateUser);
+}
