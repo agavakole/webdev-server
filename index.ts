@@ -10,6 +10,7 @@ import CourseRoutes from "./Kambaz/Courses/routes";
 import ModuleRoutes from "./Kambaz/Modules/routes";
 import AssignmentRoutes from "./Kambaz/Assignments/routes";
 import EnrollmentRoutes from "./Kambaz/Enrollments/routes";
+import PeopleRoutes from "./Kambaz/People/routes";
 
 const app = express();
 
@@ -42,5 +43,6 @@ CourseRoutes(app, db);
 ModuleRoutes(app, db);
 AssignmentRoutes(app, db);
 EnrollmentRoutes(app, db);
+PeopleRoutes(app, db);
 
 app.listen(process.env.PORT || 4000);
