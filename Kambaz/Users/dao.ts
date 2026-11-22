@@ -35,11 +35,16 @@ export default function UsersDao(db) {
       .filter((enrollment) => enrollment.course === courseId)
       .map((enrollment) => enrollment.user);
 
-    return users.filter((user) => enrolledUserIds.includes(user._id));
+    return db.users.filter((user) => enrolledUserIds.includes(user._id));
   };
 
   const deleteUser = (userId) => {
-    db.users = db.users.filter((user) => user._id !== userId);
+    const index = db.users.findIndex((user) => user._id === userId);
+
+    if (index !== -1) {
+      db.users.splice(index, 1);
+    }
+
     db.enrollments = db.enrollments.filter((enrollment) => enrollment.user !== userId);
   };
 
